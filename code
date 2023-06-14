@@ -1,0 +1,137 @@
+package project;
+
+import java.util.ArrayList;
+import java.util.List;
+
+class Song {
+    private String title;
+    private String artist;
+    private String album;
+    private int durationInSeconds;
+
+    public Song(String title, String artist, String album, int durationInSeconds) {
+        this.title = title;
+        this.artist = artist;
+        this.album = album;
+        this.durationInSeconds = durationInSeconds;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    // Getters and setters for other song properties
+
+    @Override
+    public String toString() {
+        return "Song: " + title + " | Artist: " + artist + " | Album: " + album;
+    }
+}
+
+class Playlist {
+    private String name;
+    private List<Song> songs;
+
+    public Playlist(String name) {
+        this.name = name;
+        this.songs = new ArrayList<>();
+    }
+
+    public void addSong(Song song) {
+        songs.add(song);
+    }
+
+    public void removeSong(Song song) {
+        songs.remove(song);
+    }
+
+    public void displaySongs() {
+        for (Song song : songs) {
+            System.out.println(song.toString());
+        }
+    }
+}
+
+class MusicPlayer {
+    private boolean isPlaying;
+    private int volume;
+    private Song currentSong;
+    private Playlist playlist;
+
+    public MusicPlayer() {
+        this.isPlaying = false;
+        this.volume = 50;
+        this.currentSong = null;
+        this.playlist = null;
+    }
+
+    public void play() {
+        if (currentSong != null) {
+            isPlaying = true;
+            System.out.println("Playing: " + currentSong.getTitle());
+        }
+    }
+
+    public void pause() {
+        if (isPlaying) {
+            isPlaying = false;
+            System.out.println("Paused: " + currentSong.getTitle());
+        }
+    }
+
+    public void stop() {
+        if (isPlaying) {
+            isPlaying = false;
+            System.out.println("Stopped: " + currentSong.getTitle());
+        }
+    }
+
+    public void setVolume(int volume) {
+        if (volume >= 0 && volume <= 100) {
+            this.volume = volume;
+            System.out.println("Volume set to: " + volume);
+        }
+    }
+
+    public void addToPlaylist(Song song) {
+        if (playlist != null) {
+            playlist.addSong(song);
+            System.out.println("Song added to playlist: " + song.getTitle());
+        }
+    }
+
+    public void removeFromPlaylist(Song song) {
+        if (playlist != null) {
+            playlist.removeSong(song);
+            System.out.println("Song removed from playlist: " + song.getTitle());
+        }
+    }
+
+    public void setPlaylist(Playlist playlist) {
+        this.playlist = playlist;
+        System.out.println("Playlist set: " + playlist);
+    }
+}
+
+public class MusicPlayerApp {
+    public static void main(String[] args) {
+        MusicPlayer musicPlayer = new MusicPlayer();
+
+        Song song1 = new Song("Song 1", "Artist 1", "Album 1", 180);
+        Song song2 = new Song("Song 2", "Artist 2", "Album 2", 200);
+        Song song3 = new Song("Song 3", "Artist 3", "Album 3", 220);
+
+        Playlist playlist1 = new Playlist("Playlist 1");
+        playlist1.addSong(song1);
+        playlist1.addSong(song2);
+
+        musicPlayer.setPlaylist(playlist1);
+        musicPlayer.addToPlaylist(song3);
+
+        musicPlayer.play();
+        musicPlayer.pause();
+        musicPlayer.setVolume(70);
+
+        playlist1.displaySongs();
+    }
+}
